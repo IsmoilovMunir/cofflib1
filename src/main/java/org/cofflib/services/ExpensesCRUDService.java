@@ -16,7 +16,6 @@ import java.util.Collection;
 @Slf4j
 public class ExpensesCRUDService implements CRUDService<ExpensesDto> {
     private final ExpensesRepository expensesRepository;
-    private final CategoriesRepository categoriesRepository;
 
 
     @Override
@@ -38,10 +37,7 @@ public class ExpensesCRUDService implements CRUDService<ExpensesDto> {
     @Override
     public void create(ExpensesDto expensesDto) {
         log.info("Create");
-        Expenses expenses  = mapToEntity(expensesDto);
-        Integer categoriesId = expensesDto.getCategoryId();
-        Categories categories = categoriesRepository.findById(categoriesId).orElseThrow();
-        expenses.setCategories(categories);
+        Expenses expenses = mapToEntity(expensesDto);
         expensesRepository.save(expenses);
 
     }
@@ -49,10 +45,7 @@ public class ExpensesCRUDService implements CRUDService<ExpensesDto> {
     @Override
     public void update(ExpensesDto expensesDto) {
         log.info("Update ");
-        Expenses expenses  = mapToEntity(expensesDto);
-        Integer categoriesId = expensesDto.getCategoryId();
-        Categories categories = categoriesRepository.findById(categoriesId).orElseThrow();
-        expenses.setCategories(categories);
+        Expenses expenses = mapToEntity(expensesDto);
         expensesRepository.save(expenses);
 
     }
@@ -60,7 +53,7 @@ public class ExpensesCRUDService implements CRUDService<ExpensesDto> {
     @Override
     public void delete(Integer id) {
         log.info("Delete " + id);
-       expensesRepository.deleteById(id);
+        expensesRepository.deleteById(id);
 
     }
 
@@ -68,7 +61,7 @@ public class ExpensesCRUDService implements CRUDService<ExpensesDto> {
         ExpensesDto expensesDto = new ExpensesDto();
         expensesDto.setId(expenses.getId());
         expensesDto.setName(expenses.getName());
-        expensesDto.setCategoryId(CategoriesCRUDService.mapToDto(expenses.getCategories()).getId());
+        expensesDto.setCategoryId(expenses.getId());
         expensesDto.setCost(expenses.getCost());
         expensesDto.setPaymentId(expenses.getPaymentId());
         expensesDto.setUserId(expenses.getUserId());
@@ -79,7 +72,7 @@ public class ExpensesCRUDService implements CRUDService<ExpensesDto> {
     public static Expenses mapToEntity(ExpensesDto expensesDto) {
         Expenses expenses = new Expenses();
         expenses.setCost(expensesDto.getCost());
-
+        expenses.setCategories(expensesDto.getCategoryId());
         expenses.setName(expensesDto.getName());
         expenses.setPaymentId(expensesDto.getPaymentId());
         expenses.setUserId(expensesDto.getUserId());

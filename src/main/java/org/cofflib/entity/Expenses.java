@@ -26,9 +26,8 @@ public class Expenses {
 
     @Column(name = "payment_id")
     private Integer paymentId;
-    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "category_id")
-    private Categories categories;
+    private Integer categories;
 
     @Column(name = "user_id")
     private Integer userId;

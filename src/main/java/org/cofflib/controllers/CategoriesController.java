@@ -1,5 +1,6 @@
 package org.cofflib.controllers;
 
+import lombok.AllArgsConstructor;
 import org.cofflib.dto.CategoriesDto;
 
 import org.cofflib.services.CategoriesCRUDService;
@@ -7,15 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-@Controller
+@AllArgsConstructor
 @RestController
 @RequestMapping("/categories")
 public class CategoriesController {
     private final CategoriesCRUDService categoriesService;
 
-    public CategoriesController(CategoriesCRUDService categoriesService) {
-        this.categoriesService = categoriesService;
-    }
 
 
     @GetMapping("/{id}")

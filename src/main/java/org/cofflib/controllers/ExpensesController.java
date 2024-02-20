@@ -1,20 +1,19 @@
 package org.cofflib.controllers;
 
 
+import lombok.AllArgsConstructor;
 import org.cofflib.dto.ExpensesDto;
 import org.cofflib.services.ExpensesCRUDService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-
+@AllArgsConstructor
 @RestController
 @RequestMapping("/expenses")
 public class ExpensesController {
     private final ExpensesCRUDService expensesService;
 
-    public ExpensesController(ExpensesCRUDService expensesService) {
-        this.expensesService = expensesService;
-    }
+
 
     @GetMapping("/{id}")
     public ExpensesDto getExpensesById(@PathVariable Integer id) {

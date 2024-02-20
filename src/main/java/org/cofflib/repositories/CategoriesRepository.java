@@ -10,5 +10,4 @@ import java.util.Optional;
 
 @Repository
 public interface CategoriesRepository extends JpaRepository<Categories, Integer> {
-    Optional<Object> findById(List<CategoriesDto> categoriesId);
 }
