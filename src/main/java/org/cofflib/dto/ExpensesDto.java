@@ -13,7 +13,7 @@ public class ExpensesDto {
     private String name;
     private Double cost;
     private Integer paymentId;
-    private Integer categoryId;
+    private Integer categoriesId;
     private Integer userId;
     private Date createdAt;
 }

@@ -26,8 +26,9 @@ public class Expenses {
 
     @Column(name = "payment_id")
     private Integer paymentId;
-    @Column(name = "category_id")
-    private Integer categories;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private Categories categories;
 
     @Column(name = "user_id")
     private Integer userId;

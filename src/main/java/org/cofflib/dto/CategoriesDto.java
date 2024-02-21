@@ -9,6 +9,4 @@ import lombok.Setter;
 public class CategoriesDto {
     private Integer id;
     private String name;
-
-
 }
