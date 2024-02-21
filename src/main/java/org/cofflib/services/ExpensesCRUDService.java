@@ -6,8 +6,12 @@ import org.cofflib.dto.CategoriesDto;
 import org.cofflib.dto.ExpensesDto;
 import org.cofflib.entity.Categories;
 import org.cofflib.entity.Expenses;
+import org.cofflib.entity.PaymentsType;
+import org.cofflib.entity.Users;
 import org.cofflib.repositories.CategoriesRepository;
 import org.cofflib.repositories.ExpensesRepository;
+import org.cofflib.repositories.PaymentRepository;
+import org.cofflib.repositories.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -18,6 +22,8 @@ import java.util.Collection;
 public class ExpensesCRUDService implements CRUDService<ExpensesDto> {
     private final ExpensesRepository expensesRepository;
     private final CategoriesRepository categoriesRepository;
+    private final PaymentRepository paymentRepository;
+    private final UsersRepository usersRepository;
 
 
     @Override
@@ -40,9 +46,18 @@ public class ExpensesCRUDService implements CRUDService<ExpensesDto> {
     public void create(ExpensesDto expensesDto) {
         log.info("Create");
         Expenses expenses = mapToEntity(expensesDto);
+
         Integer categoriesId = expensesDto.getCategoriesId();
         Categories categories = categoriesRepository.findById(categoriesId).orElseThrow();
 
+        Integer paymentsId = expensesDto.getPaymentId();
+        PaymentsType paymentsType = paymentRepository.findById(paymentsId).orElseThrow();
+
+        Integer userId = expensesDto.getUserId();
+        Users users = usersRepository.findById(userId).orElseThrow();
+
+        expenses.setUsers(users);
+        expenses.setPaymentsType(paymentsType);
         expenses.setCategories(categories);
         expensesRepository.save(expenses);
 
@@ -55,6 +70,9 @@ public class ExpensesCRUDService implements CRUDService<ExpensesDto> {
         Integer categoriesId = expensesDto.getCategoriesId();
         Categories categories = categoriesRepository.findById(categoriesId).orElseThrow();
 
+        Integer paymentsId = expensesDto.getPaymentId();
+        PaymentsType paymentsType = paymentRepository.findById(paymentsId).orElseThrow();
+        expenses.setPaymentsType(paymentsType);
         expenses.setCategories(categories);
         expensesRepository.save(expenses);
 
@@ -73,8 +91,8 @@ public class ExpensesCRUDService implements CRUDService<ExpensesDto> {
         expensesDto.setName(expenses.getName());
         expensesDto.setCategoriesId(CategoriesCRUDService.mapToDto(expenses.getCategories()).getId());
         expensesDto.setCost(expenses.getCost());
-        expensesDto.setPaymentId(expenses.getPaymentId());
-        expensesDto.setUserId(expenses.getUserId());
+        expensesDto.setPaymentId(PaymentCRUDService.mapToDto(expenses.getPaymentsType()).getId());
+        expensesDto.setUserId(UsersCRUDService.mapToDto(expenses.getUsers()).getId());
         return expensesDto;
 
     }
@@ -84,8 +102,6 @@ public class ExpensesCRUDService implements CRUDService<ExpensesDto> {
         expenses.setCost(expensesDto.getCost());
 
         expenses.setName(expensesDto.getName());
-        expenses.setPaymentId(expensesDto.getPaymentId());
-        expenses.setUserId(expensesDto.getUserId());
         expenses.setId(expensesDto.getId());
         return expenses;
     }

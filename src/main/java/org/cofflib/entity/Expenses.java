@@ -24,14 +24,15 @@ public class Expenses {
     @Column(name = "cost")
     private Double cost;
 
-    @Column(name = "payment_id")
-    private Integer paymentId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_id")
+    private PaymentsType paymentsType;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Categories categories;
-
-    @Column(name = "user_id")
-    private Integer userId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private Users users;
 
     @CreationTimestamp
     @Column(name = "creation_at")

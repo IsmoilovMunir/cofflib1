@@ -17,7 +17,8 @@ public class Users {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "role_id")
-    private Integer roleId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id")
+    private Roles roles;
 
 }
